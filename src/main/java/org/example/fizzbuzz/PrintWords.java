@@ -1,7 +1,7 @@
 package org.example.fizzbuzz;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PrintWords {
 
@@ -12,42 +12,29 @@ public class PrintWords {
             throw new IllegalArgumentException("Number cannot be less than 1 and greater than 100");
         }
 
-        List<PrintingRule> rules = new ArrayList<>();
-        rules.add(new PrintingRule(3, "Fizz"));
-        rules.add(new PrintingRule(5, "Buzz"));
+        Map<Integer, String> rules = new HashMap<>();
+        rules.put(3, "Fizz");
+        rules.put(5, "Buzz");
 
         for (int i = 1; i <= number; i++) {
             StringBuilder currentOutput = new StringBuilder();
-            for (PrintingRule rule : rules) {
-                if (rule.isValid(i)) {
-                    currentOutput.append(rule.getOutput());
+            for (Map.Entry<Integer, String> entry : rules.entrySet()) {
+                if (i % entry.getKey() == 0) {
+                    currentOutput.append(entry.getValue());
                 }
             }
-            output.append(currentOutput.isEmpty() ? i : currentOutput).append("\n");
+            if (currentOutput.isEmpty()) {
+                currentOutput.append(i);
+            }
+
+            output.append(currentOutput).append("\n");
         }
+
         return output.toString();
     }
 
 
-    private static class PrintingRule {
-
-        private final int divisor;
-        private final String output;
-
-        PrintingRule(int divisor, String output) {
-            this.divisor = divisor;
-            this.output = output;
-        }
-
-        boolean isValid(int number) {
-            return number % divisor == 0;
-        }
-
-        String getOutput() {
-            return output;
-        }
-
-    }
+}
 
     /*  Write a program that prints the string representation of numbers from 1 to n
           - if the number is divisible by 3, print "Fizz"
@@ -57,5 +44,5 @@ public class PrintWords {
           1 <= n <= 100
      */
 
-}
+
 
